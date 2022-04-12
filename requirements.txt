@@ -1,0 +1,12 @@
+altgraph==0.17.2
+macholib==1.16
+packaging==21.3
+pyinstaller==4.10
+pyinstaller-hooks-contrib==2022.3
+pyparsing==3.0.8
+PyQt6==6.2.3
+PyQt6-Qt6==6.2.4
+PyQt6-sip==13.2.1
+sip==6.5.1
+SQLAlchemy==1.4.35
+toml==0.10.2
