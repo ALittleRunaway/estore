@@ -1,7 +1,8 @@
 create table role
 (
 	id int primary key auto_increment,
-	name nvarchar(100) not null
+	name nvarchar(100) not null,
+	display_name nvarchar(100) not null
 );
 
 create table user
@@ -64,14 +65,14 @@ create table product
 	id int primary key auto_increment,
 	vendor_code nvarchar(255) not null,
 	name nvarchar(255) not null,
-	description nvarchar(255) not null,
+	description nvarchar(255),
 	category_id int not null,
-	photo varchar(255) not null,
+	photo varchar(255),
 	manufacturer_id int not null,
 	supplier_id int not null,
 	price decimal(19,4) not null,
-	discount int null,
-	max_discount int null,
+	discount int,
+	max_discount int not null,
 	amount int not null,
 	foreign key(category_id) references category(id),
 	foreign key(manufacturer_id) references manufacturer(id),

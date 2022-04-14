@@ -2,7 +2,7 @@ include .env
 export
 
 # Don't forget to change it!
-MIGRATION_NAME := test
+MIGRATION_NAME := insert
 
 .PHONY: save_deps
 save_deps:
@@ -31,7 +31,7 @@ migrate_version:
 
 .PHONY: migrate_force_version
 migrate_force_version:
-	migrate -source file://./estore/db/migration -database mysql://${DB_USERNAME}:${DB_PASSWORD}@/estore force -1
+	migrate -source file://./estore/db/migration -database mysql://${DB_USERNAME}:${DB_PASSWORD}@/estore force 20220412225955
 
 .PHONY: migrate_new
 migrate_new:

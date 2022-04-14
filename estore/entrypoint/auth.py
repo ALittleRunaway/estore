@@ -1,0 +1,14 @@
+import sys
+
+from estore.gateway.user_gw import UserGateway
+from estore.domain.usecase.auth_uc import AuthUseCase
+from estore.gui.auth_window import AuthWindow
+
+
+def auth_entrypoint(app, db_conn):
+    auth_window = AuthWindow()
+    auth_window.show()
+    user_gw = UserGateway(db_conn=db_conn)
+    auth_uc = AuthUseCase(gw=user_gw, window=auth_window)
+    sys.exit(app.exec())
+
