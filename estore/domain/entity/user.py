@@ -7,3 +7,4 @@ class User:
     surname: str
     patronymic: str
     role: str
+    role_id: int

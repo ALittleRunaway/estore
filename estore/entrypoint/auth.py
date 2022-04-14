@@ -7,8 +7,8 @@ from estore.gui.auth_window import AuthWindow
 
 def auth_entrypoint(app, db_conn):
     auth_window = AuthWindow()
-    auth_window.show()
     user_gw = UserGateway(db_conn=db_conn)
     auth_uc = AuthUseCase(gw=user_gw, window=auth_window)
+    auth_window.show()
     sys.exit(app.exec())
 

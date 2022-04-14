@@ -9,7 +9,7 @@ class UserGateway():
 
     def authorise(self, login, password) -> Union[User, None]:
         query = f"""
-        SELECT u.id, u.name, u.surname, u.patronymic, u.id, r.display_name
+        SELECT u.id, u.name, u.surname, u.patronymic, r.display_name, r.id
         FROM estore.user u
         INNER JOIN estore.role r ON u.role_id = r.id
             WHERE login = '{login}' AND password = '{password}';
@@ -24,4 +24,5 @@ class UserGateway():
             surname=res[0][2],
             patronymic=res[0][3],
             role=res[0][4],
+            role_id=res[0][5],
         )
