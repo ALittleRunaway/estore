@@ -1,3 +1,4 @@
+from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QMessageBox)
 from estore.domain.entity.user import User
@@ -9,7 +10,7 @@ class AuthWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Estore")
+        self.setWindowTitle("Authorisation")
 
         self.label_login = QLabel("Логин")
         self.label_password = QLabel("Пароль")
@@ -17,6 +18,7 @@ class AuthWindow(QMainWindow):
         self.input_password = QLineEdit()
         self.button_login = QPushButton("Войти!")
         self.button_see_as_guest = QPushButton("Зайти как гость")
+        self.setFixedSize(QSize(200, 200))
 
         layout = QVBoxLayout()
         layout.addWidget(self.label_login)
