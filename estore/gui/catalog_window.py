@@ -1,4 +1,6 @@
-from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QApplication, QMainWindow
+from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QApplication, \
+    QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel
+
 
 # from estore.config.config import current_user
 
@@ -8,47 +10,47 @@ class CatalogWindow(QMainWindow):
 
         self.setFixedSize(600, 500)
 
-        # main button
-        self.addButton = QPushButton('button to add other widgets')
-        self.addButton.clicked.connect(self.addWidget)
+        self.toggle_sort = QComboBox()
+        self.label_sort = QLabel("Сортировка:")
+        self.toggle_sort.addItems(["Все диапазоны", "0-9.99%", "10-14.99%", ">15%"])
 
-        # scroll area widget contents - layout
+        self.toggle_filter = QComboBox()
+        self.label_filter = QLabel("Фильтр:")
+        self.toggle_filter.addItems(["Нет", "по возрастанию цены", "По убыванию цены"])
+
+        self.search_input = QLineEdit()
+        self.label_search = QLabel("Поиск:")
+        self.search_input.setPlaceholderText("Введите что-нибудь")
+
         self.scrollLayout = QFormLayout()
 
-        # scroll area widget contents
         self.scrollWidget = QWidget()
         self.scrollWidget.setLayout(self.scrollLayout)
 
-        # scroll area
         self.scrollArea = QScrollArea()
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setWidget(self.scrollWidget)
 
-        # main layout
-        self.mainLayout = QVBoxLayout()
+        self.main_layout = QVBoxLayout()
+        self.head_layout = QHBoxLayout()
+        self.head_layout2 = QHBoxLayout()
+        self.stacklayout = QStackedLayout()
 
-        # add all main to the main vLayout
-        self.mainLayout.addWidget(self.addButton)
-        self.mainLayout.addWidget(self.scrollArea)
+        self.main_layout.addLayout(self.head_layout)
+        self.main_layout.addLayout(self.head_layout2)
+        self.main_layout.addLayout(self.stacklayout)
 
-        # central widget
+        self.head_layout.addWidget(self.label_sort)
+        self.head_layout.addWidget(self.toggle_sort)
+        self.head_layout.addWidget(self.label_filter)
+        self.head_layout.addWidget(self.toggle_filter)
+        self.head_layout2.addWidget(self.label_search)
+        self.head_layout2.addWidget(self.search_input)
+
+        self.main_layout.addWidget(self.scrollArea)
+
         self.centralWidget = QWidget()
-        self.centralWidget.setLayout(self.mainLayout)
+        self.centralWidget.setLayout(self.head_layout)
+        self.centralWidget.setLayout(self.main_layout)
 
-        # set central widget
         self.setCentralWidget(self.centralWidget)
-
-    def addWidget(self):
-        self.scrollLayout.addRow(Test())
-
-
-class Test(QWidget):
-    def __init__(self, parent=None):
-        super(Test, self).__init__(parent)
-
-        # self.pushButton = QPushButton(current_user.name)
-
-        layout = QHBoxLayout()
-        layout.addWidget(self.pushButton)
-        self.setLayout(layout)
-

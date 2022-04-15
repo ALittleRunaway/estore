@@ -14,8 +14,10 @@ class AuthUseCase():
         self.captcha_window = captcha_window
         self.catalog_window = catalog_window
         self.captcha_number = None
+        self.one_fail_left = True
 
         self.auth_window.button_login.clicked.connect(self.authorise)
+        self.auth_window.button_see_as_guest.clicked.connect(self.authorise_as_guest)
         self.captcha_window.button_submit.clicked.connect(self.verify_capctha)
         self.captcha_window.button_new_captcha.clicked.connect(self.generate_captcha)
 
@@ -26,7 +28,7 @@ class AuthUseCase():
             self.auth_window.setDisabled(False)
             self.captcha_window.captcha_input.clear()
         else:
-            QMessageBox.about(self.captcha_window, "Title", "Sleep 10 seconds")
+            QMessageBox.about(self.captcha_window, "Title", "Приложение заблокировано на 10 сек")
             self.captcha_window.setDisabled(True)
             QtTest.QTest.qWait(10000)
             self.captcha_window.setDisabled(False)
@@ -46,6 +48,19 @@ class AuthUseCase():
             self.auth_window.hide()
             self.catalog_window.show()
         else:
-            self.generate_captcha()
-            self.captcha_window.show()
-            self.auth_window.setDisabled(True)
+            if self.one_fail_left:
+                QMessageBox.about(self.auth_window, "Title", "Неверный логин или пароль. Попробуйте снова")
+                self.one_fail_left = False
+            else:
+                self.one_fail_left = True
+                self.generate_captcha()
+                self.captcha_window.show()
+                self.auth_window.setDisabled(True)
+
+    def authorise_as_guest(self):
+        global current_user
+        current_user = 'guest'
+        self.captcha_window.hide()
+        self.auth_window.hide()
+        self.catalog_window.show()
+

@@ -7,13 +7,15 @@ from estore.domain.entity.product import Product
 class ProductGateway():
 
     filter_map = {
-        "price_acs": " ORDER BY p.price ASC",
-        "price_desc": " ORDER BY p.price DESC",
+        "Нет": "",
+        "по возрастанию цены": " ORDER BY p.price ASC",
+        "По убыванию цены": " ORDER BY p.price DESC",
     }
     sort_map = {
-        "<10": "WHERE p.discount < 10",
-        "<15": "WHERE p.discount >= 10 AND WHERE p.discount < 15",
-        ">15": "WHERE p.discount > 15",
+        "Все диапазоны": "",
+        "0-9.99%": "WHERE p.discount < 10",
+        "10-14.99%": "WHERE p.discount >= 10 AND p.discount < 15",
+        ">15%": "WHERE p.discount > 15",
     }
 
     def __init__(self, db_conn):
