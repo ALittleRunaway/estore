@@ -1,5 +1,6 @@
+from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QApplication, \
-    QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel
+    QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel, QToolBar, QStatusBar, QCheckBox
 
 
 # from estore.config.config import current_user
@@ -10,14 +11,36 @@ class CatalogWindow(QMainWindow):
 
         self.setFixedSize(600, 500)
 
+
+        self.toolbar = QToolBar("My main toolbar")
+        self.addToolBar(self.toolbar)
+
+        self.fio_button = QAction("Гость", self)
+        self.fio_button.setStatusTip("Это вы")
+        self.toolbar.addAction(self.fio_button)
+
+        self.toolbar.addSeparator()
+
+        self.sign_out_button = QAction("Выйти", self)
+        self.sign_out_button.setStatusTip("Вы уверены, что хотите выйти?")
+
+        self.sign_out_button.setCheckable(True)
+        self.toolbar.addAction(self.sign_out_button)
+
+        self.setStatusBar(QStatusBar(self))
+
+
+        # sorting
         self.toggle_sort = QComboBox()
         self.label_sort = QLabel("Сортировка:")
         self.toggle_sort.addItems(["Все диапазоны", "0-9.99%", "10-14.99%", ">15%"])
 
+        # filtering
         self.toggle_filter = QComboBox()
         self.label_filter = QLabel("Фильтр:")
         self.toggle_filter.addItems(["Нет", "по возрастанию цены", "По убыванию цены"])
 
+        # search
         self.search_input = QLineEdit()
         self.label_search = QLabel("Поиск:")
         self.search_input.setPlaceholderText("Введите что-нибудь")

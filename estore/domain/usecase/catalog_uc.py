@@ -1,12 +1,14 @@
-from PyQt6.QtWidgets import QLabel
+from PyQt6 import QtGui
+from PyQt6.QtWidgets import QLabel, QMessageBox
 
 from estore.gateway.product_gw import ProductGateway
 
 
 class CatalogUseCase():
-    def __init__(self, gw: ProductGateway, catalog_window):
+    def __init__(self, gw: ProductGateway, catalog_window, auth_window):
         self.gw = gw
         self.catalog_window = catalog_window
+        self.auth_window = auth_window
         self.fill_products()
 
         self.catalog_window.search_input.returnPressed.connect(self.fill_products)
@@ -16,6 +18,8 @@ class CatalogUseCase():
 
         self.catalog_window.toggle_filter.currentIndexChanged.connect(self.fill_products)
         self.catalog_window.toggle_sort.currentIndexChanged.connect(self.fill_products)
+
+        self.catalog_window.sign_out_button.triggered.connect(self.sign_out)
 
     def fill_products(self):
 
@@ -29,5 +33,14 @@ class CatalogUseCase():
         for product in self.gw.select(filter=filter, sort=sort, search=search):
             label = QLabel(product.name)
             self.catalog_window.scrollLayout.addRow(label)
+
+    def sign_out(self):
+        reply = QMessageBox()
+        reply.setText("Вы уверены, что хотите выйти?")
+        reply.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        x = reply.exec()
+        if x == QMessageBox.StandardButton.Yes:
+            self.catalog_window.hide()
+            self.auth_window.show()
 
 

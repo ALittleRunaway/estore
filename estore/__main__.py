@@ -22,7 +22,7 @@ if __name__ == '__main__':
     user_gw = UserGateway(db_conn=db_conn)
     product_gw = ProductGateway(db_conn=db_conn)
     auth_uc = AuthUseCase(user_gw, auth_window, captcha_window, catalog_window)
-    catalog_uc = CatalogUseCase(product_gw, catalog_window)
+    catalog_uc = CatalogUseCase(product_gw, catalog_window, auth_window)
 
     auth_window.show()
     captcha_window.hide()
