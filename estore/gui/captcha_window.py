@@ -7,7 +7,7 @@ class CaptchaWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Captha")
+        self.setWindowTitle("Капча")
         self.label = QLabel("Введите капчу:")
         self.setFixedSize(QSize(250, 200))
 

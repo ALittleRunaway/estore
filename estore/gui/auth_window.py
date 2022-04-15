@@ -9,7 +9,7 @@ class AuthWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Authorisation")
+        self.setWindowTitle("Авторизация")
 
         self.label_login = QLabel("Логин")
         self.label_password = QLabel("Пароль")

@@ -22,7 +22,6 @@ class CatalogUseCase():
         self.catalog_window.sign_out_button.triggered.connect(self.sign_out)
 
     def fill_products(self):
-
         for i in reversed(range(self.catalog_window.scrollLayout.count())):
             self.catalog_window.scrollLayout.itemAt(i).widget().setParent(None)
 
@@ -30,9 +29,12 @@ class CatalogUseCase():
         sort = str(self.catalog_window.toggle_sort.currentText())
         search = self.catalog_window.search_input.text()
 
-        for product in self.gw.select(filter=filter, sort=sort, search=search):
+        for product in (products := self.gw.select(filter=filter, sort=sort, search=search)):
             label = QLabel(product.name)
             self.catalog_window.scrollLayout.addRow(label)
+
+        total_amount_str = f"{len(products)} из {self.gw.select_total_amount()}"
+        self.catalog_window.label_amount.setText(total_amount_str)
 
     def sign_out(self):
         reply = QMessageBox()

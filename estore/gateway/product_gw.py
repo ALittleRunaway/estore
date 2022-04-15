@@ -5,7 +5,6 @@ from estore.domain.entity.product import Product
 
 
 class ProductGateway():
-
     filter_map = {
         "Нет": "",
         "по возрастанию цены": " ORDER BY p.price ASC",
@@ -33,7 +32,6 @@ class ProductGateway():
         if filter:
             query += self.filter_map[filter]
         return query + ";"
-
 
     def select(self, filter=None, sort=None, search=None) -> Union[List[Product], List]:
         raw_query = f"""
@@ -84,3 +82,8 @@ class ProductGateway():
                 )
             )
         return products
+
+    def select_total_amount(self):
+        query = f"""SELECT COUNT(*) FROM estore.product p;"""
+        res = [list(x) for x in self.db_conn.execute(query).fetchall()]
+        return str(res[0][0]) if len(res[0]) != 0 else "0"

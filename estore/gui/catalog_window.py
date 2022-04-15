@@ -10,7 +10,7 @@ class CatalogWindow(QMainWindow):
         super(CatalogWindow, self).__init__(parent)
 
         self.setFixedSize(600, 500)
-
+        self.setWindowTitle("Каталог")
 
         self.toolbar = QToolBar("My main toolbar")
         self.addToolBar(self.toolbar)
@@ -43,6 +43,7 @@ class CatalogWindow(QMainWindow):
         # search
         self.search_input = QLineEdit()
         self.label_search = QLabel("Поиск:")
+        self.label_amount = QLabel("")
         self.search_input.setPlaceholderText("Введите что-нибудь")
 
         self.scrollLayout = QFormLayout()
@@ -69,6 +70,7 @@ class CatalogWindow(QMainWindow):
         self.head_layout.addWidget(self.toggle_filter)
         self.head_layout2.addWidget(self.label_search)
         self.head_layout2.addWidget(self.search_input)
+        self.head_layout2.addWidget(self.label_amount)
 
         self.main_layout.addWidget(self.scrollArea)
 
