@@ -1,11 +1,6 @@
-import random
-
 from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QFont, QFontDatabase
-from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QMessageBox, QGridLayout)
-from estore.domain.entity.user import User
-
+from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QVBoxLayout, QWidget, QPushButton, QMessageBox, QGridLayout
 
 
 class CaptchaWindow(QMainWindow):

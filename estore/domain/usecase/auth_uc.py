@@ -1,9 +1,10 @@
 import random
-import time
 
 from estore.gateway.user_gw import UserGateway
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6 import QtTest
+
+from estore.config.config import current_user
 
 
 class AuthUseCase():
@@ -38,7 +39,9 @@ class AuthUseCase():
         self.captcha_window.captcha_label.setText(self.captcha_number)
 
     def authorise(self):
-        if self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text()) is not None:
+        if (user := self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text())) is not None:
+            global current_user
+            current_user = user
             self.captcha_window.hide()
             self.auth_window.hide()
             self.catalog_window.show()

@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QApplication, QMainWindow
 
+# from estore.config.config import current_user
+
 class CatalogWindow(QMainWindow):
     def __init__(self, parent=None):
         super(CatalogWindow, self).__init__(parent)
@@ -44,7 +46,7 @@ class Test(QWidget):
     def __init__(self, parent=None):
         super(Test, self).__init__(parent)
 
-        self.pushButton = QPushButton('I am in Test widget')
+        # self.pushButton = QPushButton(current_user.name)
 
         layout = QHBoxLayout()
         layout.addWidget(self.pushButton)

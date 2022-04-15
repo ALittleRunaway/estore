@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 from estore.config.config import initConfig
 from estore.domain.usecase.auth_uc import AuthUseCase
 from estore.gateway.user_gw import UserGateway
+from estore.gateway.product_gw import ProductGateway
 from estore.gui.auth_window import AuthWindow
 from estore.gui.captcha_window import CaptchaWindow
 from estore.gui.catalog_window import CatalogWindow
@@ -18,6 +19,7 @@ if __name__ == '__main__':
     catalog_window = CatalogWindow()
 
     user_gw = UserGateway(db_conn=db_conn)
+    product_gw = ProductGateway(db_conn=db_conn)
     auth_uc = AuthUseCase(user_gw, auth_window, captcha_window, catalog_window)
 
     auth_window.show()

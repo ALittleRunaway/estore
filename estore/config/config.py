@@ -2,6 +2,8 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 import os
 
+current_user = None
+
 
 @dataclass
 class DataBaseConfig:
