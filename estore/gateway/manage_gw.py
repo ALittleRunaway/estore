@@ -1,5 +1,3 @@
-import operator
-from typing import Union
 from typing import List
 
 from estore.domain.entity.order import Order

@@ -1,4 +1,3 @@
-from typing import Union
 from typing import List
 
 from estore.domain.entity.pickup_point import PickupPoint

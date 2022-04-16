@@ -246,9 +246,10 @@ class CatalogUseCase():
         self.order_window.show()
 
     def new_order(self):
+        self.user = self.catalog_window.user
         user_id = ''
         if self.user is None:
-            user_id = 'NULL'
+            user_id = 'null'
         else:
             user_id = self.user.id
         pickup_point_id = self.pickup_points[str(self.order_window.toggle_pickup_point.currentText())]

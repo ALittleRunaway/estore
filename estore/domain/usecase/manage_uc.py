@@ -19,6 +19,7 @@ class ManageUseCase():
         self.fill_orders()
 
     def fill_orders(self):
+
         for i in reversed(range(self.manage_window.scrollLayout.count())):
             self.manage_window.scrollLayout.itemAt(i).widget().setParent(None)
 
@@ -30,7 +31,6 @@ class ManageUseCase():
         i = 0
 
         for order in (orders := self.gw.get_orders(filter=filter, sort=sort)):
-        # for order in (orders := self.gw.get_orders()):
             groupBox = QGroupBox()
 
             label_no = QLabel(f"Заказ № {order.id}")
@@ -63,8 +63,11 @@ class ManageUseCase():
             vbox.addStretch(1)
             groupBox.setLayout(vbox)
 
-            if order.discount > 15:
-                groupBox.setStyleSheet("background-color: #7fff00")
+            for product in order.products:
+                if product.amount < 3:
+                    groupBox.setStyleSheet("background-color: #20b2aa")
+                if product.amount == 0:
+                    groupBox.setStyleSheet("background-color: #ff8c00")
 
             self.manage_window.scrollLayout.addRow(groupBox)
 

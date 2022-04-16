@@ -42,12 +42,12 @@ class AuthUseCase():
     def authorise(self):
         # Successfull authorisation
         if (user := self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text())) is not None:
+            self.catalog_window.user = user
             self.catalog_window.fio_button.setText(f"{user.surname} {user.name} {user.patronymic}")
             if user.role_id == 3 or user.role_id == 4:
                 self.catalog_window.manage_button.setVisible(True)
                 self.catalog_window.manage_button.setText("Управление заказами")
                 self.catalog_window.manage_button.setStatusTip("Функционал для менеджеров и администраторов")
-            self.captcha_window.user = user
             self.captcha_window.hide()
             self.auth_window.hide()
             self.catalog_window.show()

@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBo
 
 
 class CatalogWindow(QMainWindow):
+
     def __init__(self, parent=None):
         super(CatalogWindow, self).__init__(parent)
 
@@ -33,6 +34,7 @@ class CatalogWindow(QMainWindow):
         self.toolbar.addAction(self.sign_out_button)
 
         self.setStatusBar(QStatusBar(self))
+        self.user = None
 
 
         # sorting
