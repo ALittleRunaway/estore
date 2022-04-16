@@ -3,37 +3,12 @@ from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBo
     QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel, QToolBar, QStatusBar, QCheckBox
 
 
-class CatalogWindow(QMainWindow):
+class ManageWindow(QMainWindow):
     def __init__(self, parent=None):
-        super(CatalogWindow, self).__init__(parent)
+        super(ManageWindow, self).__init__(parent)
 
         self.setFixedSize(700, 500)
-        self.setWindowTitle("Каталог")
-
-        self.toolbar = QToolBar("My main toolbar")
-        self.addToolBar(self.toolbar)
-
-        self.fio_button = QAction("Гость", self)
-        self.fio_button.setStatusTip("Это вы")
-        self.toolbar.addAction(self.fio_button)
-
-        self.toolbar.addSeparator()
-
-        self.manage_button = QAction("", self)
-        self.manage_button.setVisible(False)
-        self.toolbar.addAction(self.manage_button)
-
-        self.toolbar.addSeparator()
-
-        self.sign_out_button = QAction("Выйти", self)
-        self.sign_out_button.setStatusTip("Вы уверены, что хотите выйти?")
-
-        self.sign_out_button.setCheckable(True)
-        self.toolbar.addAction(self.manage_button)
-        self.toolbar.addAction(self.sign_out_button)
-
-        self.setStatusBar(QStatusBar(self))
-
+        self.setWindowTitle("Управление заказами")
 
         # sorting
         self.toggle_sort = QComboBox()

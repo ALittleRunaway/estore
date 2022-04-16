@@ -11,12 +11,13 @@ from estore.gateway.product_gw import ProductGateway
 
 
 class CatalogUseCase():
-    def __init__(self, product_gw: ProductGateway, order_gw, catalog_window, auth_window, order_window, path):
+    def __init__(self, product_gw: ProductGateway, order_gw, catalog_window, auth_window, order_window, manage_window, path):
         self.product_gw = product_gw
         self.order_gw = order_gw
         self.catalog_window = catalog_window
         self.auth_window = auth_window
         self.order_window = order_window
+        self.manage_window = manage_window
         self.path = path
         self.user = None
         self.order_products = []
@@ -41,6 +42,8 @@ class CatalogUseCase():
         self.order_window.button_pdf.clicked.connect(self.form_pdf)
         self.order_window.button_decline_order.clicked.connect(self.clear_order)
         self.order_window.button_order.clicked.connect(self.new_order)
+
+        self.catalog_window.manage_button.triggered.connect(self.open_manage_window)
         self.get_pickup_points()
 
     def fill_products(self):
@@ -253,3 +256,6 @@ class CatalogUseCase():
 
         self.form_pdf()
         self.clear_order()
+
+    def open_manage_window(self):
+        self.manage_window.show()

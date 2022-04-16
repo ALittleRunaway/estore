@@ -6,11 +6,12 @@ from PyQt6 import QtTest
 
 
 class AuthUseCase():
-    def __init__(self, gw: UserGateway, auth_window, captcha_window, catalog_window):
+    def __init__(self, gw: UserGateway, auth_window, captcha_window, catalog_window, manage_window):
         self.gw = gw
         self.auth_window = auth_window
         self.captcha_window = captcha_window
         self.catalog_window = catalog_window
+        self.manage_window = manage_window
         self.captcha_number = None
         self.one_fail_left = True
 
@@ -39,8 +40,13 @@ class AuthUseCase():
         self.captcha_window.captcha_label.setText(self.captcha_number)
 
     def authorise(self):
+        # Successfull authorisation
         if (user := self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text())) is not None:
             self.catalog_window.fio_button.setText(f"{user.surname} {user.name} {user.patronymic}")
+            if user.role_id == 3 or user.role_id == 4:
+                self.catalog_window.manage_button.setVisible(True)
+                self.catalog_window.manage_button.setText("Управление заказами")
+                self.catalog_window.manage_button.setStatusTip("Функционал для менеджеров и администраторов")
             self.captcha_window.user = user
             self.captcha_window.hide()
             self.auth_window.hide()
