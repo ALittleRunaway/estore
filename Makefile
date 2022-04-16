@@ -31,7 +31,7 @@ migrate_version:
 
 .PHONY: migrate_force_version
 migrate_force_version:
-	migrate -source file://./estore/db/migration -database mysql://${DB_USERNAME}:${DB_PASSWORD}@/estore force 20220412225955
+	migrate -source file://./estore/db/migration -database mysql://${DB_USERNAME}:${DB_PASSWORD}@/estore force -1
 
 .PHONY: migrate_new
 migrate_new:

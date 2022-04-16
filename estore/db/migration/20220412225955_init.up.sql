@@ -36,7 +36,7 @@ create table `order`
 	order_date datetime not null default current_timestamp,
 	delivery_date datetime not null,
 	pickup_point_id int not null,
-	user_id int not null,
+	user_id int,
     foreign key(pickup_point_id) references pickup_point(id),
     foreign key(status_id) references status(id),
     foreign key(user_id) references user(id)
@@ -70,7 +70,7 @@ create table product
 	photo varchar(255),
 	manufacturer_id int not null,
 	supplier_id int not null,
-	price decimal(19,4) not null,
+	price decimal(19,2) not null,
 	discount int,
 	max_discount int not null,
 	amount int not null,

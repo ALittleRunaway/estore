@@ -41,6 +41,7 @@ class AuthUseCase():
     def authorise(self):
         if (user := self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text())) is not None:
             self.catalog_window.fio_button.setText(f"{user.surname} {user.name} {user.patronymic}")
+            self.captcha_window.user = user
             self.captcha_window.hide()
             self.auth_window.hide()
             self.catalog_window.show()
