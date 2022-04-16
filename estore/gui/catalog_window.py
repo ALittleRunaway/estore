@@ -9,7 +9,7 @@ class CatalogWindow(QMainWindow):
     def __init__(self, parent=None):
         super(CatalogWindow, self).__init__(parent)
 
-        self.setFixedSize(600, 500)
+        self.setFixedSize(700, 500)
         self.setWindowTitle("Каталог")
 
         self.toolbar = QToolBar("My main toolbar")

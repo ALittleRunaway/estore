@@ -4,8 +4,6 @@ from estore.gateway.user_gw import UserGateway
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6 import QtTest
 
-from estore.config.config import current_user
-
 
 class AuthUseCase():
     def __init__(self, gw: UserGateway, auth_window, captcha_window, catalog_window):
@@ -28,7 +26,7 @@ class AuthUseCase():
             self.auth_window.setDisabled(False)
             self.captcha_window.captcha_input.clear()
         else:
-            QMessageBox.about(self.captcha_window, "Title", "Приложение заблокировано на 10 сек")
+            QMessageBox.about(self.captcha_window, "Title", "Неверно. Приложение заблокировано на 10 сек")
             self.captcha_window.setDisabled(True)
             QtTest.QTest.qWait(10000)
             self.captcha_window.setDisabled(False)
@@ -42,8 +40,7 @@ class AuthUseCase():
 
     def authorise(self):
         if (user := self.gw.authorise(self.auth_window.input_login.text(), self.auth_window.input_password.text())) is not None:
-            global current_user
-            current_user = user
+            self.catalog_window.fio_button.setText(f"{user.surname} {user.name} {user.patronymic}")
             self.captcha_window.hide()
             self.auth_window.hide()
             self.catalog_window.show()

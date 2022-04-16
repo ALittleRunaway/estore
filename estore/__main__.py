@@ -1,3 +1,5 @@
+import os
+
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 from estore.config.config import initConfig
 from estore.domain.usecase.auth_uc import AuthUseCase
@@ -14,6 +16,7 @@ if __name__ == '__main__':
     app = QApplication([])
     cfg = initConfig()
     db_conn = new_db(cfg.db)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
 
     auth_window = AuthWindow()
     captcha_window = CaptchaWindow()
@@ -22,7 +25,7 @@ if __name__ == '__main__':
     user_gw = UserGateway(db_conn=db_conn)
     product_gw = ProductGateway(db_conn=db_conn)
     auth_uc = AuthUseCase(user_gw, auth_window, captcha_window, catalog_window)
-    catalog_uc = CatalogUseCase(product_gw, catalog_window, auth_window)
+    catalog_uc = CatalogUseCase(product_gw, catalog_window, auth_window, dir_path)
 
     auth_window.show()
     captcha_window.hide()

@@ -15,7 +15,7 @@ class AuthWindow(QMainWindow):
         self.label_password = QLabel("Пароль")
         self.input_login = QLineEdit()
         self.input_password = QLineEdit()
-        self.button_login = QPushButton("Войти!")
+        self.button_login = QPushButton("Войти")
         self.button_see_as_guest = QPushButton("Зайти как гость")
         self.setFixedSize(QSize(200, 200))
 
