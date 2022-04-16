@@ -44,7 +44,7 @@ if __name__ == '__main__':
     captcha_window.hide()
     catalog_window.hide()
     order_window.hide()
-    manage_window.show()
+    manage_window.hide()
 
     print("The app has started")
     app.exec()

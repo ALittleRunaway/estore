@@ -111,3 +111,9 @@ class ManageGateway():
         """
         self.db_conn.execute(query)
 
+    def edit_delivery_date(self, order_id, new_date):
+        query = f"""
+        UPDATE estore.`order` o SET o.delivery_date = '{new_date}' WHERE o.id = {order_id};
+        """
+        self.db_conn.execute(query)
+

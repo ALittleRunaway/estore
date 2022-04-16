@@ -1,8 +1,9 @@
 import random
+from datetime import datetime
 
 from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import QMessageBox, QButtonGroup, QGroupBox, QLabel, QPushButton, QVBoxLayout, QComboBox, \
-    QCalendarWidget
+    QCalendarWidget, QLineEdit
 from PyQt6 import QtTest
 
 from estore.gateway.manage_gw import ManageGateway
@@ -18,6 +19,7 @@ class ManageUseCase():
 
         self.buttons_orders = {}
         self.buttons_labels = {}
+        self.buttons_edit_lines = {}
 
         self.fill_orders()
 
@@ -52,10 +54,14 @@ class ManageUseCase():
             toggle_status.setCurrentText(order.status)
             toggle_status.setStatusTip(str(i))
 
+            date_edit_line = QLineEdit()
+            date_edit_line.setPlaceholderText("Введите новую дату доставки в формате dd/mm/yyyy")
+
             button_edit = QPushButton("Заменить")
             button_edit.setStatusTip(str(i))
             self.buttons_orders[str(i)] = order
             self.buttons_labels[str(i)] = toggle_status
+            self.buttons_edit_lines[str(i)] = date_edit_line
             i += 1
             self.btn_grp.addButton(button_edit)
 
@@ -70,6 +76,7 @@ class ManageUseCase():
             vbox.addWidget(label_discount)
             vbox.addWidget(label_order_date)
             vbox.addWidget(label_delivery_date)
+            vbox.addWidget(date_edit_line)
             vbox.addWidget(label_products)
             vbox.addWidget(button_edit)
             vbox.addStretch(1)
@@ -89,8 +96,14 @@ class ManageUseCase():
         order_to_edit = self.buttons_orders[btn.statusTip()]
         new_status = self.buttons_labels[btn.statusTip()].currentText()
         self.gw.edit_status(order_to_edit.id, new_status)
+
+        new_date_str = self.buttons_edit_lines[btn.statusTip()].text()
+        if new_date_str != "":
+            try:
+                new_date = datetime.strptime(new_date_str, '%d/%M/%Y')
+                self.gw.edit_delivery_date(order_to_edit.id, new_date)
+            except:
+                QMessageBox.about(self.manage_window, "Title", "Новая дата доставки введдена в неверном формате")
+                self.buttons_edit_lines[btn.statusTip()].clear()
+
         self.fill_orders()
-        # order_to_edit.amount_selected = 1
-        # self.order_products.append(order_to_edit)
-        # self.fill_order_products()
-        # self.order_window.show()
