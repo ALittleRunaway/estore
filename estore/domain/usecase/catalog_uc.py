@@ -2,10 +2,9 @@
 import datetime
 import os
 import random
-import sys
-
 from PyQt6.QtGui import QAction, QPixmap
-from PyQt6.QtWidgets import QLabel, QMessageBox, QGroupBox, QRadioButton, QVBoxLayout, QPushButton, QStyle, QButtonGroup
+from PyQt6.QtWidgets import QLabel, QMessageBox, QGroupBox, QRadioButton, QVBoxLayout, QPushButton, QStyle, \
+    QButtonGroup, QSpinBox
 from fpdf import FPDF
 
 from estore.gateway.product_gw import ProductGateway
@@ -23,6 +22,7 @@ class CatalogUseCase():
         self.order_products = []
         self.buttons_products = {}
         self.pickup_points = {}
+        self.order_products_amounts = {}
         self.order_available = False
         self.sum = 0
         self.discount = 0
@@ -148,7 +148,6 @@ class CatalogUseCase():
 
         QMessageBox.about(self.order_window, "Title", "Ваш талон сформирован. Сохранен на рабочий стол")
 
-
     def clear_order(self):
         for i in reversed(range(self.order_window.scrollLayout.count())):
             self.order_window.scrollLayout.itemAt(i).widget().setParent(None)
@@ -161,15 +160,16 @@ class CatalogUseCase():
         self.order_window.label_discount.setText("Общая скидка: 0 %")
         self.order_window.label_order_no_actual.setText("")
 
-
-    def fill_order_products(self):
-        for i in reversed(range(self.order_window.scrollLayout.count())):
-            self.order_window.scrollLayout.itemAt(i).widget().setParent(None)
-
+    def update_sum_and_discount(self):
+        self.sum = 0
+        self.discount = 0
         for product in self.order_products:
+            self.sum += product.price * product.amount_selected
+            self.discount += product.discount * product.amount_selected
 
-            self.sum += product.price
-            self.discount += product.discount
+    def update_order_products(self):
+        self.update_sum_and_discount()
+        for product in self.order_products:
             groupBox = QGroupBox()
 
             label_product_name = QLabel("Название: " + product.name)
@@ -182,6 +182,10 @@ class CatalogUseCase():
             label_product_photo = QLabel()
             image_product_photo = QPixmap(self.path + "/gui/static/" + product.photo).scaledToWidth(70)
             label_product_photo.setPixmap(image_product_photo)
+            order_product_amount = QSpinBox()
+            order_product_amount.setValue(product.amount_selected)
+            order_product_amount.valueChanged.connect(lambda: self.update_product_amount(product, order_product_amount.value()))
+
             vbox = QVBoxLayout()
             vbox.minimumSize()
             vbox.addWidget(label_product_name)
@@ -190,6 +194,7 @@ class CatalogUseCase():
             vbox.addWidget(label_product_price)
             vbox.addWidget(label_product_discount)
             vbox.addWidget(label_product_photo)
+            vbox.addWidget(order_product_amount)
             vbox.addStretch(1)
             groupBox.setLayout(vbox)
             self.order_window.scrollLayout.addRow(groupBox)
@@ -199,9 +204,35 @@ class CatalogUseCase():
         self.order_window.label_discount.setText("Общая скидка: " + str(self.discount) + " %")
         self.order_window.label_order_no_actual.setText(str(int(self.order_gw.get_last_order_id()) + 1))
 
+    def clean_order_layout_safe(self):
+        for i in range(self.order_window.scrollLayout.count()):
+            item = self.order_window.scrollLayout.itemAt(i)
+            widget = item.widget()
+            widget.deleteLater()
+
+    def clean_order_layout_unsafe(self):
+        for i in reversed(range(self.order_window.scrollLayout.count())):
+            self.order_window.scrollLayout.itemAt(i).widget().setParent(None)
+
+    def fill_order_products(self):
+        self.clean_order_layout_safe()
+        self.update_order_products()
+
+    def update_product_amount(self, product, value):
+        self.clean_order_layout_safe()
+        for p in self.order_products:
+            if p.id == product.id:
+                if value == 0:
+                    self.order_products.remove(p)
+                else:
+                    p.amount_selected = value
+        self.update_order_products()
+
     def add_to_order(self, btn):
         self.order_available = True
-        self.order_products.append(self.buttons_products[btn.statusTip()])
+        product_to_add = self.buttons_products[btn.statusTip()]
+        product_to_add.amount_selected = 1
+        self.order_products.append(product_to_add)
         self.fill_order_products()
         self.order_window.show()
 

@@ -79,6 +79,7 @@ class ProductGateway():
                     discount=res[i][12],
                     max_discount=res[i][13],
                     amount=res[i][14],
+                    amount_selected=0
                 )
             )
         return products

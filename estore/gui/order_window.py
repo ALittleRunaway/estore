@@ -1,6 +1,6 @@
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import QPushButton, QFormLayout, QWidget, QScrollArea, QVBoxLayout, QHBoxLayout, QApplication, \
-    QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel, QToolBar, QStatusBar, QCheckBox
+    QMainWindow, QComboBox, QLineEdit, QStackedLayout, QLabel, QToolBar, QStatusBar, QCheckBox, QSpinBox
 
 
 class OrderWindow(QMainWindow):
