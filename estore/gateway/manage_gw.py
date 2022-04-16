@@ -34,6 +34,7 @@ def more_fifteen(orders):
             sorter_orders.append(order)
     return sorter_orders
 
+
 class ManageGateway():
     filter_map = {
         "Нет": nothing,
@@ -102,5 +103,11 @@ class ManageGateway():
 
         return orders
 
-
+    def edit_status(self, order_id, status_name):
+        query = f"""
+        UPDATE estore.`order` o SET o.status_id = (
+        SELECT s.id FROM estore.status s WHERE s.name = '{status_name}'
+        ) WHERE o.id = {order_id};
+        """
+        self.db_conn.execute(query)
 

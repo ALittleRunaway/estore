@@ -1,6 +1,8 @@
 import random
 
-from PyQt6.QtWidgets import QMessageBox, QButtonGroup, QGroupBox, QLabel, QPushButton, QVBoxLayout
+from PyQt6.QtCore import QDate
+from PyQt6.QtWidgets import QMessageBox, QButtonGroup, QGroupBox, QLabel, QPushButton, QVBoxLayout, QComboBox, \
+    QCalendarWidget
 from PyQt6 import QtTest
 
 from estore.gateway.manage_gw import ManageGateway
@@ -15,6 +17,7 @@ class ManageUseCase():
         self.manage_window.toggle_sort.currentIndexChanged.connect(self.fill_orders)
 
         self.buttons_orders = {}
+        self.buttons_labels = {}
 
         self.fill_orders()
 
@@ -43,23 +46,32 @@ class ManageUseCase():
             products_string = "Состав: \n" + "\n".join([f" + {product.name}; цена: {product.price} ₽; скидка: {product.discount} %" for product in order.products])
             label_products = QLabel(products_string)
 
-            button_order = QPushButton("Добавить в корзину")
-            button_order.setStatusTip(str(i))
+            # button_edit = QPushButton("Добавить в корзину")
+            toggle_status = QComboBox()
+            toggle_status.addItems(["Новый", "Завершен"])
+            toggle_status.setCurrentText(order.status)
+            toggle_status.setStatusTip(str(i))
+
+            button_edit = QPushButton("Заменить")
+            button_edit.setStatusTip(str(i))
             self.buttons_orders[str(i)] = order
+            self.buttons_labels[str(i)] = toggle_status
             i += 1
-            self.btn_grp.addButton(button_order)
+            self.btn_grp.addButton(button_edit)
 
             vbox = QVBoxLayout()
             vbox.maximumSize()
             vbox.addWidget(label_no)
+
             vbox.addWidget(label_status)
+            vbox.addWidget(toggle_status)
             vbox.addWidget(label_client)
             vbox.addWidget(label_sum)
             vbox.addWidget(label_discount)
             vbox.addWidget(label_order_date)
             vbox.addWidget(label_delivery_date)
             vbox.addWidget(label_products)
-            vbox.addWidget(button_order)
+            vbox.addWidget(button_edit)
             vbox.addStretch(1)
             groupBox.setLayout(vbox)
 
@@ -71,10 +83,13 @@ class ManageUseCase():
 
             self.manage_window.scrollLayout.addRow(groupBox)
 
-        self.btn_grp.buttonClicked.connect(self.a)
+        self.btn_grp.buttonClicked.connect(self.edit)
 
-    def a(self, btn):
+    def edit(self, btn):
         order_to_edit = self.buttons_orders[btn.statusTip()]
+        new_status = self.buttons_labels[btn.statusTip()].currentText()
+        self.gw.edit_status(order_to_edit.id, new_status)
+        self.fill_orders()
         # order_to_edit.amount_selected = 1
         # self.order_products.append(order_to_edit)
         # self.fill_order_products()
