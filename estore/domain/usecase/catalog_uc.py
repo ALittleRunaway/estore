@@ -118,13 +118,12 @@ class CatalogUseCase():
 
     def form_pdf(self):
         order_date =datetime.datetime.now().strftime("%m/%d/%Y")
-        delivery_days = 0
+        delivery_days = 3
         order_no = self.order_window.label_order_no_actual.text()
         fio = self.order_window.label_fio.text()
         sum = self.order_window.label_sum.text()
         discount = self.order_window.label_discount.text()
         pp = str(self.order_window.toggle_pickup_point.currentText())
-
 
         pdf = FPDF()
         pdf.add_page()
@@ -139,8 +138,15 @@ class CatalogUseCase():
         pdf.cell(200, 10, txt=f"{discount}", ln=2, align='L')
         pdf.cell(200, 10, txt=f"", ln=1, align='C')
 
+        pdf.cell(200, 10, txt=f"Товары:", ln=2, align='L')
+        for product in self.order_products:
+            if product.amount <= 3:
+                delivery_days = 6
+            pdf.cell(200, 10, txt=f"+ {product.name}; {product.manufacturer} x {product.amount_selected} шт.", ln=2, align='L')
+        pdf.cell(200, 10, txt=f"", ln=1, align='C')
+
         pdf.cell(200, 10, txt=f"Дата заказа: {order_date}", ln=2, align='L')
-        pdf.cell(200, 10, txt=f"Срок доставки: {delivery_days}", ln=2, align='L')
+        pdf.cell(200, 10, txt=f"Срок доставки: {delivery_days} дня", ln=2, align='L')
         pdf.cell(200, 10, txt=f"Пункт выдачи: {pp}", ln=2, align='L')
         pdf.cell(200, 10, txt=f"Код получения: {random.randint(100, 1000)}", ln=2, align='L')
         desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')

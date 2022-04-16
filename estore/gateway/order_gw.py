@@ -38,4 +38,4 @@ class OrderGateway():
         order_id = self.get_last_order_id()
 
         for product in products:
-            self.db_conn.execute(query_order_details.format(order_id, product.id, product.amount))
+            self.db_conn.execute(query_order_details.format(order_id, product.id, product.amount_selected))
