@@ -7,7 +7,7 @@ class ManageWindow(QMainWindow):
     def __init__(self, parent=None):
         super(ManageWindow, self).__init__(parent)
 
-        self.setFixedSize(700, 500)
+        self.setFixedSize(700, 450)
         self.setWindowTitle("Управление заказами")
 
         # sorting
@@ -19,12 +19,6 @@ class ManageWindow(QMainWindow):
         self.toggle_filter = QComboBox()
         self.label_filter = QLabel("Фильтр:")
         self.toggle_filter.addItems(["Нет", "по возрастанию цены", "По убыванию цены"])
-
-        # search
-        self.search_input = QLineEdit()
-        self.label_search = QLabel("Поиск:")
-        self.label_amount = QLabel("")
-        self.search_input.setPlaceholderText("Введите что-нибудь")
 
         self.scrollLayout = QFormLayout()
 
@@ -48,9 +42,6 @@ class ManageWindow(QMainWindow):
         self.head_layout.addWidget(self.toggle_sort)
         self.head_layout.addWidget(self.label_filter)
         self.head_layout.addWidget(self.toggle_filter)
-        self.head_layout2.addWidget(self.label_search)
-        self.head_layout2.addWidget(self.search_input)
-        self.head_layout2.addWidget(self.label_amount)
 
         self.main_layout.addWidget(self.scrollArea)
 

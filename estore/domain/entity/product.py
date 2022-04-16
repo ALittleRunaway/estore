@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 @dataclass
 class Product:
@@ -19,3 +18,12 @@ class Product:
     max_discount: int
     amount: int
     amount_selected: int = 0
+
+
+@dataclass
+class ProductSimple:
+    name: str
+    price: float
+    discount: int
+    amount: int
+

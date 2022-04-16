@@ -137,7 +137,7 @@ class CatalogUseCase():
         pdf.cell(200, 10, txt=f"", ln=1, align='C')
 
         pdf.cell(200, 10, txt=f"{fio}", ln=1, align='L')
-        pdf.cell(200, 10, txt=f"{sum}", ln=2, align='L')
+        pdf.cell(200, 10, txt=f"{sum}руб.", ln=2, align='L')
         pdf.cell(200, 10, txt=f"{discount}", ln=2, align='L')
         pdf.cell(200, 10, txt=f"", ln=1, align='C')
 
